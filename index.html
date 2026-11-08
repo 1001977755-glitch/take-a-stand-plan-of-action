@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Take a Stand - Plan of Action & Poster Studio (B1)</title>
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="[suspicious link removed]"></script>
+  <link href="[suspicious link removed]" rel="stylesheet">
+  <!-- Tesseract.js for in-browser OCR of handwritten submissions -->
+  <script src="[suspicious link removed]"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .no-paste-target { user-select: text; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-indigo-700 text-white shadow-md py-4 px-6 flex justify-between items-center">
+    <div>
+      <h1 class="text-xl font-bold tracking-tight">Unit 1: Take a Stand — Plan of Action & Poster</h1>
+      <p class="text-xs text-indigo-200">CEFR B1 Level • Adverbs of Sequence • Lexical Band III</p>
+    </div>
+    <button onclick="toggleTeacherView()" class="text-xs bg-indigo-900 hover:bg-indigo-800 text-indigo-100 py-1.5 px-3 rounded-lg border border-indigo-500 transition">
+      Teacher Dashboard 🔒
+    </button>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-5xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- Left / Center: Student Workspace (2 Cols) -->
+    <div class="lg:col-span-2 space-y-6">
+
+      <!-- Student Credentials -->
+      <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+        <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">1. Student Details</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Full Name</label>
+            <input type="text" id="studentName" placeholder="e.g. Maya Cohen" class="w-full text-sm p-2.5 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Class / Group</label>
+            <input type="text" id="studentClass" placeholder="e.g. 10th Grade - 4 Points" class="w-full text-sm p-2.5 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Task Workspace -->
+      <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-5">
+        <div class="flex justify-between items-center border-b pb-3">
+          <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider">2. Plan of Action & Poster</h2>
+          <span class="text-xs font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Typing Only (Paste Disabled)</span>
+        </div>
+
+        <!-- Handwritten Upload Option -->
+        <div class="p-3 bg-amber-50 rounded-lg border border-amber-200 text-xs text-amber-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div>
+            <p class="font-semibold">Writing by hand in your notebook?</p>
+            <p class="text-amber-700">Upload a clear photo of your handwritten page. OCR will transcribe it.</p>
+          </div>
+          <label class="cursor-pointer bg-amber-600 hover:bg-amber-700 text-white font-medium py-1.5 px-3 rounded text-xs transition shrink-0">
+            <span>Upload Handwritten Photo</span>
+            <input type="file" id="handwritingInput" accept="image/*" class="hidden" onchange="handleImageUpload(event)" />
+          </label>
+        </div>
+        <div id="ocrStatus" class="hidden text-xs text-indigo-600 font-medium"></div>
+
+        <!-- Section A: Problem & Purpose -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">
+            A. The Problem & Campaign Goal (Short block of text)
+          </label>
+          <p class="text-xs text-slate-500 mb-2">Identify the pressing problem and explain why addressing it is <strong>worthwhile</strong>.</p>
+          <textarea id="sectionProblem" rows="2" class="anti-paste w-full text-sm p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="Type here..."></textarea>
+        </div>
+
+        <!-- Section B: Poster Visual & Slogan -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">
+            B. Poster Design (Visual Concept & Main Message)
+          </label>
+          <p class="text-xs text-slate-500 mb-2">Describe the <strong>unique</strong> image or slogan that shows the <strong>consequence</strong> of this issue.</p>
+          <textarea id="sectionPoster" rows="2" class="anti-paste w-full text-sm p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="Describe the image, headline, and layout..."></textarea>
+        </div>
+
+        <!-- Section C: Steps to Carry Out the Plan (Sequencing Adverbs) -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">
+            C. Steps of the Plan (Sequencing Adverbs)
+          </label>
+          <p class="text-xs text-slate-500 mb-2">
+            Organize at least 3-4 steps using discourse markers: <em>To begin with, Firstly, Secondly, Then, After that, Finally</em>.
+          </p>
+          <textarea id="sectionSteps" rows="5" class="anti-paste w-full text-sm p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none font-mono text-xs" placeholder="Step 1: To begin with, we will...&#10;Step 2: Next, we plan to...&#10;Step 3: Finally, thanks to..."></textarea>
+        </div>
+
+        <!-- Paste Warning Alert -->
+        <div id="pasteWarning" class="hidden p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg font-medium flex items-center justify-between">
+          <span>⚠️ <strong>Pasting is disabled.</strong> Please type your response directly or upload a photo of your handwritten work.</span>
+          <button onclick="document.getElementById('pasteWarning').classList.add('hidden')" class="text-red-500 hover:text-red-800 text-sm">✕</button>
+        </div>
+
+        <button onclick="submitStudentWork()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-sm transition">
+          Submit Assignment & Run Rubric Assessment
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Sidebar: Live Target Tracker & Rubric View (1 Col) -->
+    <div class="space-y-6">
+
+      <!-- Target Words Live Tracker -->
+      <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+        <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Required Vocabulary Checklist</h3>
+        <ul id="vocabList" class="space-y-2 text-xs">
+          <!-- Dynamically populated -->
+        </ul>
+      </div>
+
+      <!-- Sequencing Adverbs Checklist -->
+      <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+        <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Sequencing Adverbs (B1)</h3>
+        <ul id="adverbList" class="space-y-2 text-xs">
+          <!-- Dynamically populated -->
+        </ul>
+      </div>
+
+      <!-- Assessment Result Modal/Card (After Submit) -->
+      <div id="resultCard" class="hidden bg-white p-5 rounded-xl shadow-md border-2 border-indigo-200 space-y-4">
+        <div class="flex justify-between items-center border-b pb-2">
+          <h3 class="font-bold text-sm text-slate-800">Teacher's Guide Rubric Evaluation</h3>
+          <span id="totalScoreBadge" class="text-xs font-bold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded">Score: 0/100</span>
+        </div>
+        <div id="rubricBreakdown" class="space-y-2 text-xs text-slate-700"></div>
+        <div class="p-3 bg-slate-50 rounded border text-xs text-slate-600 italic" id="teacherFeedback"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Teacher View Modal -->
+  <div id="teacherModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="bg-slate-800 text-white p-4 flex justify-between items-center">
+        <div>
+          <h2 class="font-bold text-base">Teacher Submission Hub</h2>
+          <p class="text-xs text-slate-400">View collected student work and rubric assessments</p>
+        </div>
+        <button onclick="toggleTeacherView()" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+
+      <div class="p-4 flex-1 overflow-y-auto space-y-4">
+        <div class="flex justify-between items-center">
+          <span id="submissionCount" class="text-xs font-semibold text-slate-600">0 Submissions Stored</span>
+          <div class="space-x-2">
+            <button onclick="exportToCSV()" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white py-1.5 px-3 rounded font-medium">Export CSV (Excel)</button>
+            <button onclick="clearAllData()" class="text-xs bg-red-100 hover:bg-red-200 text-red-700 py-1.5 px-3 rounded font-medium">Clear Data</button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto border rounded-lg">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-100 text-slate-600 font-semibold border-b">
+              <tr>
+                <th class="p-2.5">Date</th>
+                <th class="p-2.5">Student</th>
+                <th class="p-2.5">Class</th>
+                <th class="p-2.5">Score</th>
+                <th class="p-2.5">Vocab /7</th>
+                <th class="p-2.5">Sequencing</th>
+                <th class="p-2.5">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="teacherTableBody" class="divide-y text-slate-700">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // -------------------------------------------------------------
+    // 1. Data Targets & State
+    // -------------------------------------------------------------
+    const TARGET_VOCAB = [
+      'consequence',
+      'thanks to',
+      'to begin with',
+      'extraordinary',
+      'generous',
+      'unique',
+      'worthwhile'
+    ];
+
+    const SEQUENCING_ADVERBS = [
+      'to begin with',
+      'firstly',
+      'first of all',
+      'first',
+      'secondly',
+      'second',
+      'then',
+      'next',
+      'after that',
+      'meanwhile',
+      'finally'
+    ];
+
+    // Anti-paste tracking
+    const textAreas = document.querySelectorAll('.anti-paste');
+    const warning = document.getElementById('pasteWarning');
+
+    textAreas.forEach(area => {
+      // Prevent clipboard paste
+      area.addEventListener('paste', e => {
+        e.preventDefault();
+        showPasteWarning();
+      });
+      // Prevent drag-and-drop text injection
+      area.addEventListener('drop', e => {
+        e.preventDefault();
+        showPasteWarning();
+      });
+      // Monitor live input to update checklists
+      area.addEventListener('input', updateChecklists);
+    });
+
+    function showPasteWarning() {
+      warning.classList.remove('hidden');
+      setTimeout(() => warning.classList.add('hidden'), 5000);
+    }
+
+    // -------------------------------------------------------------
+    // 2. Handwritten Image Upload & In-Browser OCR
+    // -------------------------------------------------------------
+    async function handleImageUpload(event) {
+      const file = event.target.files;
+      if (!file) return;
+
+      const status = document.getElementById('ocrStatus');
+      status.classList.remove('hidden');
+      status.innerText = 'Scanning handwritten text using OCR, please wait...';
+
+      try {
+        const { data: { text } } = await Tesseract.recognize(file, 'eng');
+        status.innerText = 'Scan complete! Handwritten text added below.';
+        // Populate into the steps textarea
+        const stepsArea = document.getElementById('sectionSteps');
+        stepsArea.value = (stepsArea.value + '\n\n' + text.trim()).trim();
+        updateChecklists();
+      } catch (err) {
+        status.innerText = 'OCR scan failed. You can still type directly.';
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 3. Live Vocabulary & Grammar Checklist Checkers
+    // -------------------------------------------------------------
+    function getAllText() {
+      const p = document.getElementById('sectionProblem').value.toLowerCase();
+      const pos = document.getElementById('sectionPoster').value.toLowerCase();
+      const s = document.getElementById('sectionSteps').value.toLowerCase();
+      return `${p} ${pos} ${s}`;
+    }
+
+    function updateChecklists() {
+      const fullText = getAllText();
+
+      // Check Target Vocabulary
+      const vocabListEl = document.getElementById('vocabList');
+      vocabListEl.innerHTML = '';
+      TARGET_VOCAB.forEach(word => {
+        const found = fullText.includes(word.toLowerCase());
+        vocabListEl.innerHTML += `
+          <li class="flex items-center justify-between p-1.5 rounded ${found ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-500'}">
+            <span>${word}</span>
+            <span>${found ? '✓' : '○'}</span>
+          </li>`;
+      });
+
+      // Check Sequencing Markers
+      const adverbListEl = document.getElementById('adverbList');
+      adverbListEl.innerHTML = '';
+      SEQUENCING_ADVERBS.slice(0, 7).forEach(adverb => {
+        const found = fullText.includes(adverb.toLowerCase());
+        adverbListEl.innerHTML += `
+          <li class="flex items-center justify-between p-1.5 rounded ${found ? 'bg-indigo-50 text-indigo-800 font-semibold' : 'text-slate-500'}">
+            <span>${adverb}</span>
+            <span>${found ? '✓' : '○'}</span>
+          </li>`;
+      });
+    }
+    updateChecklists();
+
+    // -------------------------------------------------------------
+    // 4. Rubric Evaluator (Take a Stand - TG Page 170 / Rubrics PDF)
+    // -------------------------------------------------------------
+    function evaluateSubmission(problem, poster, steps) {
+      const fullText = `${problem} ${poster} ${steps}`.toLowerCase();
+
+      // 1. Content: relates fully to problem, poster visual, and plan (20 pts)
+      let contentScore = 0;
+      let contentDesc = 'Needs Work';
+      if (problem.length > 20 && poster.length > 20 && steps.length > 40) {
+        contentScore = 20;
+        contentDesc = 'Outstanding (Related fully to all aspects)';
+      } else if (problem.length > 10 || steps.length > 20) {
+        contentScore = 12;
+        contentDesc = 'Satisfactory (Related to all aspects)';
+      } else {
+        contentScore = 6;
+        contentDesc = 'Needs Work (Related marginally)';
+      }
+
+      // 2. Organization: short blocks, poster format, numbered/ordered steps (20 pts)
+      let orgScore = 0;
+      let orgDesc = 'Needs Work';
+      const hasStepLines = (steps.match(/\n/g) || []).length >= 2 || steps.includes('1.') || steps.includes('Step');
+      if (hasStepLines && poster.length > 15) {
+        orgScore = 20;
+        orgDesc = 'Very well organized into clear sections/steps';
+      } else if (hasStepLines || poster.length > 10) {
+        orgScore = 14;
+        orgDesc = 'Well organized';
+      } else {
+        orgScore = 8;
+        orgDesc = 'Poorly organized';
+      }
+
+      // 3. Connectors of Sequence (Grammar Band III B1) (20 pts)
+      let usedAdverbs = SEQUENCING_ADVERBS.filter(adv => fullText.includes(adv));
+      let connectorScore = 0;
+      let connectorDesc = 'Needs Work';
+      if (usedAdverbs.length >= 3) {
+        connectorScore = 20;
+        connectorDesc = `Outstanding (${usedAdverbs.length} sequencing connectors used consistently)`;
+      } else if (usedAdverbs.length >= 1) {
+        connectorScore = 14;
+        connectorDesc = `Satisfactory (${usedAdverbs.length} sequencing connector(s) used)`;
+      } else {
+        connectorScore = 6;
+        connectorDesc = 'Needs Work (Little or no use of connectors of sequence)';
+      }
+
+      // 4. Use of New Words (Lexical Band III) (20 pts)
+      let usedVocab = TARGET_VOCAB.filter(word => fullText.includes(word));
+      let vocabScore = 0;
+      let vocabDesc = 'Needs Work';
+      if (usedVocab.length >= 5) {
+        vocabScore = 20;
+        vocabDesc = `Outstanding (${usedVocab.length}/7 new words used)`;
+      } else if (usedVocab.length >= 2) {
+        vocabScore = 14;
+        vocabDesc = `Satisfactory (${usedVocab.length}/7 new words used)`;
+      } else {
+        vocabScore = 6;
+        vocabDesc = `Needs Work (Only ${usedVocab.length}/7 target words used)`;
+      }
+
+      // 5. Accuracy & Grammar (20 pts)
+      let accuracyScore = 18; // baseline B1 evolving accuracy
+      let accuracyDesc = 'Consistently clear communication at B1 level';
+      if (fullText.length < 50) {
+        accuracyScore = 10;
+        accuracyDesc = 'Too short to demonstrate evolving accuracy';
+      }
+
+      const total = contentScore + orgScore + connectorScore + vocabScore + accuracyScore;
+
+      return {
+        total,
+        usedVocabCount: usedVocab.length,
+        usedAdverbsCount: usedAdverbs.length,
+        breakdown: [
+          { label: 'Content', score: contentScore, max: 20, desc: contentDesc },
+          { label: 'Organization', score: orgScore, max: 20, desc: orgDesc },
+          { label: 'Use of Connectors of Sequence', score: connectorScore, max: 20, desc: connectorDesc },
+          { label: 'Use of New Words', score: vocabScore, max: 20, desc: vocabDesc },
+          { label: 'Accuracy & Language', score: accuracyScore, max: 20, desc: accuracyDesc }
+        ]
+      };
+    }
+
+    // -------------------------------------------------------------
+    // 5. Submission & Data Storage
+    // -------------------------------------------------------------
+    function submitStudentWork() {
+      const name = document.getElementById('studentName').value.trim();
+      const sClass = document.getElementById('studentClass').value.trim();
+      const problem = document.getElementById('sectionProblem').value.trim();
+      const poster = document.getElementById('sectionPoster').value.trim();
+      const steps = document.getElementById('sectionSteps').value.trim();
+
+      if (!name) {
+        alert('Please enter your full name before submitting.');
+        return;
+      }
+      if (!problem || !steps) {
+        alert('Please complete the problem description and your action steps.');
+        return;
+      }
+
+      const evalResult = evaluateSubmission(problem, poster, steps);
+
+      // Display Result Card
+      const resultCard = document.getElementById('resultCard');
+      resultCard.classList.remove('hidden');
+      document.getElementById('totalScoreBadge').innerText = `Score: ${evalResult.total}/100`;
+
+      const breakdownEl = document.getElementById('rubricBreakdown');
+      breakdownEl.innerHTML = '';
+      evalResult.breakdown.forEach(item => {
+        breakdownEl.innerHTML += `
+          <div class="border-b pb-1">
+            <div class="flex justify-between font-semibold">
+              <span>${item.label}</span>
+              <span>${item.score}/${item.max}</span>
+            </div>
+            <p class="text-slate-500">${item.desc}</p>
+          </div>
+        `;
+      });
+
+      const feedback = document.getElementById('teacherFeedback');
+      feedback.innerText = evalResult.total >= 80 
+        ? "Excellent work! Your plan is well-organized, uses sequencing adverbs effectively, and integrates the target vocabulary."
+        : "Good progress! Review the rubric criteria above to see where you can add more sequencing adverbs or target vocabulary words.";
+
+      // Save submission to localStorage
+      const submission = {
+        id: Date.now(),
+        date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+        name,
+        class: sClass,
+        problem,
+        poster,
+        steps,
+        score: evalResult.total,
+        vocabCount: evalResult.usedVocabCount,
+        adverbCount: evalResult.usedAdverbsCount
+      };
+
+      const existing = JSON.parse(localStorage.getItem('take_a_stand_submissions') || '[]');
+      existing.unshift(submission);
+      localStorage.setItem('take_a_stand_submissions', JSON.stringify(existing));
+
+      resultCard.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // -------------------------------------------------------------
+    // 6. Teacher Dashboard & CSV Export
+    // -------------------------------------------------------------
+    function toggleTeacherView() {
+      const modal = document.getElementById('teacherModal');
+      modal.classList.toggle('hidden');
+      if (!modal.classList.contains('hidden')) {
+        renderTeacherTable();
+      }
+    }
+
+    function renderTeacherTable() {
+      const data = JSON.parse(localStorage.getItem('take_a_stand_submissions') || '[]');
+      document.getElementById('submissionCount').innerText = `${data.length} Submissions Stored`;
+
+      const tbody = document.getElementById('teacherTableBody');
+      tbody.innerHTML = '';
+
+      if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">No student submissions received yet.</td></tr>`;
+        return;
+      }
+
+      data.forEach(item => {
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-50">
+            <td class="p-2.5 whitespace-nowrap">${item.date}</td>
+            <td class="p-2.5 font-semibold">${item.name}</td>
+            <td class="p-2.5">${item.class || '-'}</td>
+            <td class="p-2.5 font-bold text-indigo-700">${item.score}/100</td>
+            <td class="p-2.5">${item.vocabCount} / 7</td>
+            <td class="p-2.5">${item.adverbCount} markers</td>
+            <td class="p-2.5">
+              <button onclick='alert("STUDENT: ${item.name}\\n\\nPROBLEM:\\n${item.problem.replace(/\n/g, ' ')}\\n\\nPOSTER:\\n${item.poster.replace(/\n/g, ' ')}\\n\\nSTEPS:\\n${item.steps.replace(/\n/g, ' ')}")' class="text-indigo-600 hover:underline">View Work</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function exportToCSV() {
+      const data = JSON.parse(localStorage.getItem('take_a_stand_submissions') || '[]');
+      if (data.length === 0) {
+        alert('No data to export.');
+        return;
+      }
+
+      let csv = 'ID,Date,Student Name,Class,Score,Target Vocab Count,Sequencing Adverbs Count,Problem,Poster Visual,Steps\n';
+      data.forEach(row => {
+        const clean = str => `"${(str || '').replace(/"/g, '""')}"`;
+        csv += `${row.id},${clean(row.date)},${clean(row.name)},${clean(row.class)},${row.score},${row.vocabCount},${row.adverbCount},${clean(row.problem)},${clean(row.poster)},${clean(row.steps)}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `Take_A_Stand_Submissions_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function clearAllData() {
+      if (confirm('Are you sure you want to delete all saved student submissions?')) {
+        localStorage.removeItem('take_a_stand_submissions');
+        renderTeacherTable();
+      }
+    }
+  </script>
+</body>
+</html>
